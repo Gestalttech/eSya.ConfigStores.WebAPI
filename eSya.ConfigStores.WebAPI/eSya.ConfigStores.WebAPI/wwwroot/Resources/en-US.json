@@ -1,0 +1,21 @@
+{
+  "W0091": "Item Group is already Exist",
+  "W0092": "This Item Group is linked to an Item Category. Please unlink it before deactivating",
+  "W0093": "Item Group Description is already Exist",
+  "W0094": "Item Category is already Exist",
+  "W0095": "This Item Catergory is linked to an Item Group. Please unlink it before deactivating",
+  "W0096": "Item Sub Category is already Exist",
+  "W0097": "This Sub Catergory is linked to an Item Group. Please unlink it before deactivating",
+  "W0098": "Item Sub Category Description is already Exist",
+  "W0099": "Already Linked",
+  "W0100": "Store Description is already Exist",
+  "W0101": "Store Code does not Exist",
+  "W0102": "Store already Liked with Business, can't deactivate",
+  "W0103": "Store Code Couldn't delete",
+  "W0104": "No Link Selected for Store",
+  "S0001": "Saved Sucessfully",
+  "S0002": "Updated Sucessfully",
+  "S0003": "Activated Successfully",
+  "S0004": "De Activated Successfully",
+  "S0005": "Deleted Sucessfully"
+}
