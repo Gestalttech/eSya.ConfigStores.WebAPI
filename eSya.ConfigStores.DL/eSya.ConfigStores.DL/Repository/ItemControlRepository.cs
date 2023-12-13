@@ -169,8 +169,8 @@ namespace eSya.ConfigStores.DL.Repository
                     .Select(s => new DO_ItemCategory
                     {
                         ItemCategoryDesc = s.ItemCategoryDesc,
-                        BudgetAmount = s.RevisedBudgetAmount,
-                        CommittmentAmount = s.ComittmentAmount,
+                        //BudgetAmount = s.RevisedBudgetAmount,
+                        //CommittmentAmount = s.ComittmentAmount,
                         ActiveStatus = s.ActiveStatus
                     }).FirstOrDefaultAsync();
 
@@ -202,9 +202,9 @@ namespace eSya.ConfigStores.DL.Repository
                                 {
                                     ItemCategory = newItemCategoryId,
                                     ItemCategoryDesc = obj.ItemCategoryDesc,
-                                    OriginalBudgetAmount = obj.BudgetAmount,
-                                    RevisedBudgetAmount = obj.BudgetAmount,
-                                    ComittmentAmount = obj.CommittmentAmount,
+                                    //OriginalBudgetAmount = obj.BudgetAmount,
+                                    //RevisedBudgetAmount = obj.BudgetAmount,
+                                    //ComittmentAmount = obj.CommittmentAmount,
                                     ActiveStatus = obj.ActiveStatus,
 
                                     FormId = obj.FormID,
@@ -237,8 +237,8 @@ namespace eSya.ConfigStores.DL.Repository
                                 }
                             }
                             updatedItemCategory.ItemCategoryDesc = obj.ItemCategoryDesc;
-                            updatedItemCategory.RevisedBudgetAmount = obj.BudgetAmount;
-                            updatedItemCategory.ComittmentAmount = obj.CommittmentAmount;
+                            //updatedItemCategory.RevisedBudgetAmount = obj.BudgetAmount;
+                            //updatedItemCategory.ComittmentAmount = obj.CommittmentAmount;
                             updatedItemCategory.ActiveStatus = obj.ActiveStatus;
 
                             updatedItemCategory.FormId = obj.FormID;
@@ -321,7 +321,6 @@ namespace eSya.ConfigStores.DL.Repository
                                     ItemSubCategory = newItemSubCategoryId,
                                     ItemSubCategoryDesc = obj.ItemSubCategoryDesc,
                                     ActiveStatus = obj.ActiveStatus,
-
                                     FormId = obj.FormID,
                                     CreatedBy = obj.UserID,
                                     CreatedOn = obj.CreatedOn,
@@ -459,6 +458,9 @@ namespace eSya.ConfigStores.DL.Repository
                                     ItemGroup = obj.ItemGroupID,
                                     ItemCategory = obj.ItemCategory,
                                     ItemSubCategory = obj.ItemSubCategory,
+                                    OriginalBudgetAmount = obj.BudgetAmount,
+                                    RevisedBudgetAmount = obj.BudgetAmount,
+                                    ComittmentAmount = obj.CommittmentAmount,
                                     ActiveStatus = obj.ActiveStatus,
                                     FormId = obj.FormID,
                                     CreatedBy = obj.UserID,
@@ -475,6 +477,8 @@ namespace eSya.ConfigStores.DL.Repository
                         else if (obj.flag == 1)
                         {
                             var updatedMappingRecord = db.GtEiitgcs.Where(w => w.ItemGroup == obj.ItemGroupID && w.ItemCategory == obj.ItemCategory && w.ItemSubCategory == obj.ItemSubCategory).FirstOrDefault();
+                            updatedMappingRecord.RevisedBudgetAmount = obj.BudgetAmount;
+                            updatedMappingRecord.ComittmentAmount = obj.CommittmentAmount;
                             updatedMappingRecord.ActiveStatus = obj.ActiveStatus;
                             updatedMappingRecord.FormId = obj.FormID;
                             updatedMappingRecord.ModifiedBy = obj.UserID;
@@ -503,7 +507,9 @@ namespace eSya.ConfigStores.DL.Repository
                 var result = db.GtEiitgcs
                     .Where(w => w.ItemGroup == ItemGroupID && w.ItemCategory == ItemCategory && w.ItemSubCategory == ItemSubCategory)
                              .Select(s => new DO_ItemGroupCategory
-                             {
+                             { 
+                                 BudgetAmount = s.RevisedBudgetAmount,
+                                 CommittmentAmount = s.ComittmentAmount,
                                  ActiveStatus = s.ActiveStatus
                              }
                             ).FirstOrDefaultAsync();

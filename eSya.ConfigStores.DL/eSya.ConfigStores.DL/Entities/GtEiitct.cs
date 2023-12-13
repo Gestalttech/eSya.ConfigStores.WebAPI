@@ -13,9 +13,6 @@ namespace eSya.ConfigStores.DL.Entities
 
         public int ItemCategory { get; set; }
         public string ItemCategoryDesc { get; set; } = null!;
-        public decimal OriginalBudgetAmount { get; set; }
-        public decimal RevisedBudgetAmount { get; set; }
-        public decimal ComittmentAmount { get; set; }
         public bool ActiveStatus { get; set; }
         public string FormId { get; set; } = null!;
         public int CreatedBy { get; set; }

@@ -8,6 +8,9 @@ namespace eSya.ConfigStores.DL.Entities
         public int ItemGroup { get; set; }
         public int ItemCategory { get; set; }
         public int ItemSubCategory { get; set; }
+        public decimal OriginalBudgetAmount { get; set; }
+        public decimal RevisedBudgetAmount { get; set; }
+        public decimal ComittmentAmount { get; set; }
         public bool ActiveStatus { get; set; }
         public string FormId { get; set; } = null!;
         public int CreatedBy { get; set; }

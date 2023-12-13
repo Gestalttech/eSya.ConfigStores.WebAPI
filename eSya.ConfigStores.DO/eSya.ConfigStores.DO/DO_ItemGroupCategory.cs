@@ -12,11 +12,14 @@ namespace eSya.ConfigStores.DO
         public int ItemGroupID { get; set; }
         public int ItemCategory { get; set; }
         public int ItemSubCategory { get; set; }
+        public decimal BudgetAmount { get; set; }
+        public decimal CommittmentAmount { get; set; }
         public bool ActiveStatus { get; set; }
         public string FormID { get; set; }
         public int UserID { get; set; }
         public DateTime CreatedOn { get; set; }
         public string TerminalID { get; set; }
+       
     }
     public class DO_ItemGroup
     {
@@ -34,8 +37,8 @@ namespace eSya.ConfigStores.DO
         public int ItemGroupId { get; set; }
         public int? ItemCategory { get; set; }
         public string ItemCategoryDesc { get; set; }
-        public decimal BudgetAmount { get; set; }
-        public decimal CommittmentAmount { get; set; }
+        //public decimal BudgetAmount { get; set; }
+        //public decimal CommittmentAmount { get; set; }
         public bool ActiveStatus { get; set; }
         public string FormID { get; set; }
         public int UserID { get; set; }
