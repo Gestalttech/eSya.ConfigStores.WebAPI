@@ -48,8 +48,8 @@ builder.Services.AddLocalization();
 
 
 builder.Services.AddScoped<ICommonRepository, CommonRepository>();
-builder.Services.AddScoped<IItemControlRepository, ItemControlRepository>();
 builder.Services.AddScoped<IStoreMasterRepository, StoreMasterRepository>();
+builder.Services.AddScoped<IInventoryRulesRepository, InventoryRulesRepository>();
 builder.Services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
 
 

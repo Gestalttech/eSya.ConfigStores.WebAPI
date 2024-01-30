@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IItemControlRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\eSya.ConfigStores.DO\eSya.ConfigStores.DO\eSya.ConfigStores.DO.csproj" />
   </ItemGroup>
 

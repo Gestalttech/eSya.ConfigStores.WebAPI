@@ -53,6 +53,7 @@ D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.IF\eSya.
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.IF\eSya.ConfigStores.IF\obj\Debug\net6.0\eSya.ConfigStores.IF.AssemblyInfoInputs.cache
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.IF\eSya.ConfigStores.IF\obj\Debug\net6.0\eSya.ConfigStores.IF.AssemblyInfo.cs
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.IF\eSya.ConfigStores.IF\obj\Debug\net6.0\eSya.ConfigStores.IF.csproj.CoreCompileInputs.cache
+D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.IF\eSya.ConfigStores.IF\obj\Debug\net6.0\eSya.ConfigStores.IF.sourcelink.json
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.IF\eSya.ConfigStores.IF\obj\Debug\net6.0\eSya.ConfigStores.IF.csproj.CopyComplete
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.IF\eSya.ConfigStores.IF\obj\Debug\net6.0\eSya.ConfigStores.IF.dll
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.IF\eSya.ConfigStores.IF\obj\Debug\net6.0\refint\eSya.ConfigStores.IF.dll
