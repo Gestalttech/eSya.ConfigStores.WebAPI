@@ -73,9 +73,9 @@ namespace eSya.ConfigStores.WebAPI.Controllers
         /// <param name="status-storetype-storecode"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> ActiveOrDeActiveStoreCode(bool status, string storetype, int storecode)
+        public async Task<IActionResult> ActiveOrDeActiveStoreCode(bool status,  int storecode)
         {
-            var msg = await _StoreMasterRepository.ActiveOrDeActiveStoreCode(status, storetype, storecode);
+            var msg = await _StoreMasterRepository.ActiveOrDeActiveStoreCode(status,  storecode);
             return Ok(msg);
         }
         #endregion  Store Master

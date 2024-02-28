@@ -11,7 +11,6 @@ namespace eSya.ConfigStores.DL.Entities
         }
 
         public int StoreCode { get; set; }
-        public string StoreType { get; set; } = null!;
         public string StoreDesc { get; set; } = null!;
         public bool ActiveStatus { get; set; }
         public string FormId { get; set; } = null!;

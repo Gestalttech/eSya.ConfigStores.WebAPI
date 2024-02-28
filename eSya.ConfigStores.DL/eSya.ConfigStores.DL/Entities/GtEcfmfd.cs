@@ -5,6 +5,11 @@ namespace eSya.ConfigStores.DL.Entities
 {
     public partial class GtEcfmfd
     {
+        public GtEcfmfd()
+        {
+            GtEcfmpas = new HashSet<GtEcfmpa>();
+        }
+
         public int FormId { get; set; }
         public string? FormCode { get; set; }
         public string FormName { get; set; } = null!;
@@ -17,5 +22,7 @@ namespace eSya.ConfigStores.DL.Entities
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public string? ModifiedTerminal { get; set; }
+
+        public virtual ICollection<GtEcfmpa> GtEcfmpas { get; set; }
     }
 }

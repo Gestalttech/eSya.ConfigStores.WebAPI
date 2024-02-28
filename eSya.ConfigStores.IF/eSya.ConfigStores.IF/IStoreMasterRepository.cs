@@ -19,7 +19,7 @@ namespace eSya.ConfigStores.IF
 
         Task<DO_ReturnParameter> DeleteStoreCode(int Storecode);
 
-        Task<DO_ReturnParameter> ActiveOrDeActiveStoreCode(bool status, string storetype, int storecode);
+        Task<DO_ReturnParameter> ActiveOrDeActiveStoreCode(bool status,  int storecode);
 
         Task<List<DO_StoreMaster>> GetActiveStoreCodes();
 

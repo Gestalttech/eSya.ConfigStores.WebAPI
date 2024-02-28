@@ -20,7 +20,7 @@ namespace eSya.ConfigStores.DL.Entities
         public virtual DbSet<GtEastbl> GtEastbls { get; set; } = null!;
         public virtual DbSet<GtEcbsln> GtEcbslns { get; set; } = null!;
         public virtual DbSet<GtEcfmfd> GtEcfmfds { get; set; } = null!;
-        public virtual DbSet<GtEcfmp> GtEcfmps { get; set; } = null!;
+        public virtual DbSet<GtEcfmpa> GtEcfmpas { get; set; } = null!;
         public virtual DbSet<GtEcfmst> GtEcfmsts { get; set; } = null!;
         public virtual DbSet<GtEcinvr> GtEcinvrs { get; set; } = null!;
         public virtual DbSet<GtEcpast> GtEcpasts { get; set; } = null!;
@@ -144,13 +144,15 @@ namespace eSya.ConfigStores.DL.Entities
                 entity.Property(e => e.ToolTip).HasMaxLength(250);
             });
 
-            modelBuilder.Entity<GtEcfmp>(entity =>
+            modelBuilder.Entity<GtEcfmpa>(entity =>
             {
-                entity.HasKey(e => new { e.FormId, e.ParameterId, e.SubParameterId });
+                entity.HasKey(e => new { e.FormId, e.ParameterId });
 
-                entity.ToTable("GT_ECFMPS");
+                entity.ToTable("GT_ECFMPA");
 
                 entity.Property(e => e.FormId).HasColumnName("FormID");
+
+                entity.Property(e => e.ParameterId).HasColumnName("ParameterID");
 
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
@@ -159,6 +161,12 @@ namespace eSya.ConfigStores.DL.Entities
                 entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
                 entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
+
+                entity.HasOne(d => d.Form)
+                    .WithMany(p => p.GtEcfmpas)
+                    .HasForeignKey(d => d.FormId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GT_ECFMPA_GT_ECFMFD");
             });
 
             modelBuilder.Entity<GtEcfmst>(entity =>
@@ -261,11 +269,6 @@ namespace eSya.ConfigStores.DL.Entities
                 entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
 
                 entity.Property(e => e.StoreDesc).HasMaxLength(50);
-
-                entity.Property(e => e.StoreType)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .IsFixedLength();
             });
 
             OnModelCreatingPartial(modelBuilder);

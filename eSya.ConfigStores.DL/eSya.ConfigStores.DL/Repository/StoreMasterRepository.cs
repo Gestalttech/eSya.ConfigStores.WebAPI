@@ -32,7 +32,6 @@ namespace eSya.ConfigStores.DL.Repository
 
                                   .Select(s => new DO_StoreMaster
                                   {
-                                      StoreType = s.StoreType,
                                       StoreCode = s.StoreCode,
                                       StoreDesc = s.StoreDesc,
                                       ActiveStatus = s.ActiveStatus
@@ -108,7 +107,6 @@ namespace eSya.ConfigStores.DL.Repository
                             var objstorecode = new GtEcstrm
                             {
                                 StoreCode = storecode_,
-                                StoreType = storecodes.StoreType,
                                 StoreDesc = storecodes.StoreDesc,
                                 FormId = storecodes.FormId,
                                 ActiveStatus = storecodes.ActiveStatus,
@@ -309,7 +307,7 @@ namespace eSya.ConfigStores.DL.Repository
             }
         }
 
-        public async Task<DO_ReturnParameter> ActiveOrDeActiveStoreCode(bool status, string storetype, int storecode)
+        public async Task<DO_ReturnParameter> ActiveOrDeActiveStoreCode(bool status,  int storecode)
         {
             using (var db = new eSyaEnterprise())
             {
@@ -317,7 +315,7 @@ namespace eSya.ConfigStores.DL.Repository
                 {
                     try
                     {
-                        GtEcstrm strore_code = db.GtEcstrms.Where(w => w.StoreType.ToUpper().Replace(" ", "") == storetype.ToUpper().Replace(" ", "") && w.StoreCode == storecode).FirstOrDefault();
+                        GtEcstrm strore_code = db.GtEcstrms.Where(w => w.StoreCode == storecode).FirstOrDefault();
                         if (strore_code == null)
                         {
                             return new DO_ReturnParameter() { Status = false, StatusCode = "W0101", Message = string.Format(_localizer[name: "W0101"]) };
@@ -479,7 +477,7 @@ namespace eSya.ConfigStores.DL.Repository
                 using (eSyaEnterprise db = new eSyaEnterprise())
                 {
                     var result = await db.GtEcfmfds
-                        .Join(db.GtEcfmps,
+                        .Join(db.GtEcfmpas,
                             f => f.FormId,
                             p => p.FormId,
                             (f, p) => new { f, p })
@@ -513,13 +511,12 @@ namespace eSya.ConfigStores.DL.Repository
                         s => s.StoreCode,
                         p => p.StoreCode,
                         (s, p) => new { s, p })
-                        .Join(db.GtEcfmps.Where(w => w.FormId == formId),
+                        .Join(db.GtEcfmpas.Where(w => w.FormId == formId),
                         sp => new { sp.p.ParameterId },
-                        f => new { ParameterId = f.SubParameterId },
+                        f => new { ParameterId = f.ParameterId },
                         (sp, f) => new { sp, f })
                         .Select(r => new
                         {
-                            r.sp.s.StoreType,
                             r.sp.s.StoreCode,
                             r.sp.s.StoreDesc,
                         });
@@ -546,7 +543,6 @@ namespace eSya.ConfigStores.DL.Repository
                    .SelectMany(z => z.f.DefaultIfEmpty(),
                     (a, b) => new DO_StoreMaster
                     {
-                        StoreType = a.s.StoreType,
                         StoreCode = a.s.StoreCode,
                         StoreDesc = a.s.StoreDesc,
                         ActiveStatus = b == null ? false : b.ActiveStatus
