@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\InventoryRulesController.cs" />
     <Compile Remove="Controllers\ItemControlController.cs" />
   </ItemGroup>
 

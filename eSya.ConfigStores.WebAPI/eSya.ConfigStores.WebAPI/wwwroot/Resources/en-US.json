@@ -1,13 +1,11 @@
 {
-  
-  "W0100": "Store Description is already Exist",
-  "W0101": "Store Code does not Exist",
-  "W0102": "Store already Liked with Business, can't deactivate",
-  "W0103": "Store Code Couldn't delete",
-  "W0104": "No Link Selected for Store",
-  "W0134": "Inventory Rule is already exist Please select another one",
-  "W0135": "Inventory Rule Description is already Exist",
-  "W0136": "Inventory Rule is not  Exist",
+
+  "W0084": "Store Description is already Exist",
+  "W0085": "Store Code does not Exist",
+  "W0086": "Store already Liked with Business, can't deactivate",
+  "W0087": "Store Code Couldn't delete",
+  "W0088": "No Link Selected for Store",
+
   "S0001": "Saved Sucessfully",
   "S0002": "Updated Sucessfully",
   "S0003": "Activated Successfully",

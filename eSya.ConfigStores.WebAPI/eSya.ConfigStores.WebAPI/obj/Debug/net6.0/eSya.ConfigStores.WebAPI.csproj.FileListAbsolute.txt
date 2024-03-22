@@ -839,7 +839,6 @@ D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\e
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\obj\Debug\net6.0\eSya.ConfigStores.WebAPI.AssemblyInfoInputs.cache
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\obj\Debug\net6.0\eSya.ConfigStores.WebAPI.AssemblyInfo.cs
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\obj\Debug\net6.0\eSya.ConfigStores.WebAPI.csproj.CoreCompileInputs.cache
-D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\obj\Debug\net6.0\eSya.ConfigStores.WebAPI.MvcApplicationPartsAssemblyInfo.cs
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\obj\Debug\net6.0\eSya.ConfigStores.WebAPI.MvcApplicationPartsAssemblyInfo.cache
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\obj\Debug\net6.0\eSya.ConfigStores.WebAPI.sourcelink.json
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\bin\Debug\net6.0\appsettings.Development.json

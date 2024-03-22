@@ -22,7 +22,6 @@ namespace eSya.ConfigStores.DL.Entities
         public virtual DbSet<GtEcfmfd> GtEcfmfds { get; set; } = null!;
         public virtual DbSet<GtEcfmpa> GtEcfmpas { get; set; } = null!;
         public virtual DbSet<GtEcfmst> GtEcfmsts { get; set; } = null!;
-        public virtual DbSet<GtEcinvr> GtEcinvrs { get; set; } = null!;
         public virtual DbSet<GtEcpast> GtEcpasts { get; set; } = null!;
         public virtual DbSet<GtEcstrm> GtEcstrms { get; set; } = null!;
 
@@ -96,6 +95,8 @@ namespace eSya.ConfigStores.DL.Entities
                 entity.Property(e => e.Isdcode).HasColumnName("ISDCode");
 
                 entity.Property(e => e.LocationDescription).HasMaxLength(150);
+
+                entity.Property(e => e.Lstatus).HasColumnName("LStatus");
 
                 entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
@@ -180,38 +181,6 @@ namespace eSya.ConfigStores.DL.Entities
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
                 entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
-
-                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<GtEcinvr>(entity =>
-            {
-                entity.HasKey(e => e.InventoryRuleId);
-
-                entity.ToTable("GT_ECINVR");
-
-                entity.Property(e => e.InventoryRuleId)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("InventoryRuleID")
-                    .IsFixedLength();
-
-                entity.Property(e => e.ApplyToSrn).HasColumnName("ApplyToSRN");
-
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
-
-                entity.Property(e => e.FormId)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("FormID");
-
-                entity.Property(e => e.InventoryRuleDesc)
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
 

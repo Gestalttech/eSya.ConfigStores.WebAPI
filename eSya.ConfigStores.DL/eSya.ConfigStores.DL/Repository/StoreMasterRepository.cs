@@ -138,7 +138,7 @@ namespace eSya.ConfigStores.DL.Repository
                         }
                         else
                         {
-                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0100", Message = string.Format(_localizer[name: "W0100"]) };
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0084", Message = string.Format(_localizer[name: "W0084"]) };
                         }
                     }
                     catch (DbUpdateException ex)
@@ -166,13 +166,13 @@ namespace eSya.ConfigStores.DL.Repository
                         GtEcstrm isStorecodeExists = db.GtEcstrms.FirstOrDefault(c => c.StoreCode != storecodes.StoreCode && c.StoreDesc.ToUpper().Replace(" ", "") == storecodes.StoreDesc.ToUpper().Replace(" ", ""));
                         if (isStorecodeExists != null)
                         {
-                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0100", Message = string.Format(_localizer[name: "W0100"]) };
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0084", Message = string.Format(_localizer[name: "W0084"]) };
                         }
 
                         GtEcstrm st_code = db.GtEcstrms.Where(s => s.StoreCode == storecodes.StoreCode).FirstOrDefault();
                         if (st_code == null)
                         {
-                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0101", Message = string.Format(_localizer[name: "W0101"]) };
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0085", Message = string.Format(_localizer[name: "W0085"]) };
                         }
 
                         if (!storecodes.ActiveStatus)
@@ -180,7 +180,7 @@ namespace eSya.ConfigStores.DL.Repository
                             GtEastbl st_bl = db.GtEastbls.Where(s => s.StoreCode == storecodes.StoreCode && s.ActiveStatus).FirstOrDefault();
                             if (st_bl != null)
                             {
-                                return new DO_ReturnParameter() { Status = false, StatusCode = "W0102", Message = string.Format(_localizer[name: "W0102"]) };
+                                return new DO_ReturnParameter() { Status = false, StatusCode = "W0086", Message = string.Format(_localizer[name: "W0086"]) };
                             }
                         }
 
@@ -268,7 +268,7 @@ namespace eSya.ConfigStores.DL.Repository
                         }
                         else
                         {
-                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0103", Message = string.Format(_localizer[name: "W0103"]) };
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0087", Message = string.Format(_localizer[name: "W0087"]) };
                         }
                     }
                     catch (DbUpdateException ex)
@@ -318,7 +318,7 @@ namespace eSya.ConfigStores.DL.Repository
                         GtEcstrm strore_code = db.GtEcstrms.Where(w => w.StoreCode == storecode).FirstOrDefault();
                         if (strore_code == null)
                         {
-                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0101", Message = string.Format(_localizer[name: "W0101"]) };
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0085", Message = string.Format(_localizer[name: "W0085"]) };
                         }
 
                         strore_code.ActiveStatus = status;
@@ -450,7 +450,7 @@ namespace eSya.ConfigStores.DL.Repository
                         else
                         {
                             dbContext.Commit();
-                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0104", Message = string.Format(_localizer[name: "W0104"]) };
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0088", Message = string.Format(_localizer[name: "W0088"]) };
                         }
                     }
                     catch (DbUpdateException ex)
