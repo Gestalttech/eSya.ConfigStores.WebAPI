@@ -24,11 +24,13 @@ namespace eSya.ConfigStores.DO
         public int BusinessKey { get; set; }
         public int StoreCode { get; set; }
         public string? StoreClass { get; set; }
+        public int PortfolioId { get; set; }
         public bool ActiveStatus { get; set; }
         public string? FormId { get; set; }
         public int UserID { get; set; }
         public string? TerminalID { get; set; }
         public List<DO_StoreBusinessLink>? lst_businessLink { get; set; }
+        public string? PortfolioDesc { get; set; }
     }
 
     public class DO_StoreFormLink
@@ -47,5 +49,24 @@ namespace eSya.ConfigStores.DO
         public decimal ParmPerct { get; set; }
         public string? ParmDesc { get; set; }
         public bool ActiveStatus { get; set; }
+    }
+    public class DO_PortfolioBusinessLink
+    {
+        public int BusinessKey { get; set; }
+        public int StoreCode { get; set; }
+        public int PortfolioId { get; set; }
+        public bool ActiveStatus { get; set; }
+        public string FormId { get; set; }
+        public int UserID { get; set; }
+        public string TerminalID { get; set; }
+    }
+    public class DO_PortfolioMaster
+    {
+        public int PortfolioId { get; set; }
+        public string PortfolioDesc { get; set; } 
+        public bool ActiveStatus { get; set; }
+        public string FormId { get; set; }
+        public int UserID { get; set; }
+        public string TerminalID { get; set; }
     }
 }

@@ -5,7 +5,8 @@
   "W0086": "Store already Liked with Business, can't deactivate",
   "W0087": "Store Code Couldn't delete",
   "W0088": "No Link Selected for Store",
-
+  "W0089": "Portfolio Description is already Exist",
+  "W0090": "Portfolio does not Exist",
   "S0001": "Saved Sucessfully",
   "S0002": "Updated Sucessfully",
   "S0003": "Activated Successfully",

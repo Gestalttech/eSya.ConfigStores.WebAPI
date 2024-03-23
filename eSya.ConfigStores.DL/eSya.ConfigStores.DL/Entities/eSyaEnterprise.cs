@@ -23,6 +23,8 @@ namespace eSya.ConfigStores.DL.Entities
         public virtual DbSet<GtEcfmpa> GtEcfmpas { get; set; } = null!;
         public virtual DbSet<GtEcfmst> GtEcfmsts { get; set; } = null!;
         public virtual DbSet<GtEcpast> GtEcpasts { get; set; } = null!;
+        public virtual DbSet<GtEcspfm> GtEcspfms { get; set; } = null!;
+        public virtual DbSet<GtEcstpf> GtEcstpfs { get; set; } = null!;
         public virtual DbSet<GtEcstrm> GtEcstrms { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -213,6 +215,54 @@ namespace eSya.ConfigStores.DL.Entities
                     .HasForeignKey(d => d.StoreCode)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_GT_ECPAST_GT_ECSTRM");
+            });
+
+            modelBuilder.Entity<GtEcspfm>(entity =>
+            {
+                entity.HasKey(e => e.PortfolioId);
+
+                entity.ToTable("GT_ECSPFM");
+
+                entity.Property(e => e.PortfolioId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("PortfolioID");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.FormId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.PortfolioDesc).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<GtEcstpf>(entity =>
+            {
+                entity.HasKey(e => new { e.BusinessKey, e.StoreCode, e.PortfolioId });
+
+                entity.ToTable("GT_ECSTPF");
+
+                entity.Property(e => e.PortfolioId).HasColumnName("PortfolioID");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.FormId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
             });
 
             modelBuilder.Entity<GtEcstrm>(entity =>

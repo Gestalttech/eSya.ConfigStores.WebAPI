@@ -100,15 +100,26 @@ namespace eSya.ConfigStores.WebAPI.Controllers
             return Ok(str_lst);
 
         }
-
         /// <summary>
-        /// Getting  Store Business Link Info.
+        /// Getting  Store Business Link Info for drop down.
         /// UI Reffered - Store Business Link
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetStoreBusinessLinkInfo(int BusinessKey, int StoreCode)
         {
             var storelinks = await _StoreMasterRepository.GetStoreBusinessLinkInfo(BusinessKey, StoreCode);
+            return Ok(storelinks);
+
+        }
+
+        /// <summary>
+        /// Getting  Port folio Store Business Link for grid.
+        /// UI Reffered - Store Business Link
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetPortfolioStoreBusinessLinkInfo(int BusinessKey, int StoreCode)
+        {
+            var storelinks = await _StoreMasterRepository.GetPortfolioStoreBusinessLinkInfo(BusinessKey, StoreCode);
             return Ok(storelinks);
 
         }
@@ -148,5 +159,54 @@ namespace eSya.ConfigStores.WebAPI.Controllers
             return Ok(msg);
         }
         #endregion
+
+        #region Portfolio Master
+        /// <summary>
+        /// Getting  Portfolios.
+        /// UI Reffered - Portfolios Grid
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetAllPortfolios()
+        {
+            var store_master = await _StoreMasterRepository.GetAllPortfolios();
+            return Ok(store_master);
+        }
+
+        /// <summary>
+        /// Insert Into Portfolio .
+        /// UI Reffered -Portfolio
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> InsertIntoPortfolio(DO_PortfolioMaster obj)
+        {
+            var msg = await _StoreMasterRepository.InsertIntoPortfolio(obj);
+            return Ok(msg);
+
+        }
+        /// <summary>
+        /// Insert Into Portfolio .
+        /// UI Reffered -Portfolio
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> UpdatePortfolio(DO_PortfolioMaster obj)
+        {
+            var msg = await _StoreMasterRepository.UpdatePortfolio(obj);
+            return Ok(msg);
+
+        }
+
+        /// <summary>
+        /// Active Or De Active Portfolio.
+        /// UI Reffered - Portfolio
+        /// </summary>
+        /// <param name="status-PortfolioId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> ActiveOrDeActivePortfolio(bool status, int PortfolioId)
+        {
+            var msg = await _StoreMasterRepository.ActiveOrDeActivePortfolio(status, PortfolioId);
+            return Ok(msg);
+        }
+        #endregion 
     }
 }

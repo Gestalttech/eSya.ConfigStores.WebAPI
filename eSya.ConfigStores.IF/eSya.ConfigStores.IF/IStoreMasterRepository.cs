@@ -29,7 +29,8 @@ namespace eSya.ConfigStores.IF
 
         Task<List<DO_StoreMaster>> GetStoreList(int BusienssKey);
 
-        Task<List<DO_StoreBusinessLink>> GetStoreBusinessLinkInfo(int BusinessKey, int StoreCode);
+        Task<DO_StoreBusinessLink> GetStoreBusinessLinkInfo(int BusinessKey, int StoreCode);
+        Task<List<DO_StoreBusinessLink>> GetPortfolioStoreBusinessLinkInfo(int BusinessKey, int StoreCode);
 
         //Task<DO_ReturnParameter> InsertUpdateStoreBusinessLink(DO_StoreBusinessLink obj);
 
@@ -44,6 +45,13 @@ namespace eSya.ConfigStores.IF
 
         Task<DO_ReturnParameter> InsertIntoFormStoreLink(List<DO_StoreFormLink> l_obj);
 
+        #endregion
+
+        #region Portfolio Master
+        Task<List<DO_PortfolioMaster>> GetAllPortfolios();
+        Task<DO_ReturnParameter> InsertIntoPortfolio(DO_PortfolioMaster obj);
+        Task<DO_ReturnParameter> UpdatePortfolio(DO_PortfolioMaster obj);
+        Task<DO_ReturnParameter> ActiveOrDeActivePortfolio(bool status, int PortfolioId);
         #endregion
     }
 }

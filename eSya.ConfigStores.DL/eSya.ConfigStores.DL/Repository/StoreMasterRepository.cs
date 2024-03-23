@@ -383,7 +383,7 @@ namespace eSya.ConfigStores.DL.Repository
             }
         }
 
-        public async Task<List<DO_StoreBusinessLink>> GetStoreBusinessLinkInfo(int BusinessKey, int StoreCode)
+        public async Task<DO_StoreBusinessLink> GetStoreBusinessLinkInfo(int BusinessKey, int StoreCode)
         {
             try
             {
@@ -393,11 +393,51 @@ namespace eSya.ConfigStores.DL.Repository
                         .Where(w => w.BusinessKey == BusinessKey && w.StoreCode == StoreCode)
                         .Select(r => new DO_StoreBusinessLink
                         {
+                            StoreCode=r.StoreCode,
                             StoreClass = r.StoreClass,
                             ActiveStatus = r.ActiveStatus
-                        }).ToListAsync();
+                        }).FirstOrDefaultAsync();
 
                     return await ds;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<List<DO_StoreBusinessLink>> GetPortfolioStoreBusinessLinkInfo(int BusinessKey, int StoreCode)
+        {
+            try
+            {
+                using (var db = new eSyaEnterprise())
+                {
+                    var ds = await db.GtEcspfms.Where(x => x.ActiveStatus)
+                        .Select(r => new DO_StoreBusinessLink
+                        {
+                            BusinessKey = BusinessKey,
+                            StoreCode = StoreCode,
+                            ActiveStatus = false,
+                            PortfolioId=r.PortfolioId,
+                            PortfolioDesc=r.PortfolioDesc
+                        }).ToListAsync();
+                    
+                    foreach (var obj in ds)
+                    {
+                        GtEcstpf pf = db.GtEcstpfs.Where(x => x.BusinessKey == BusinessKey && x.StoreCode==StoreCode && x.PortfolioId == obj.PortfolioId).FirstOrDefault();
+                        if (pf != null)
+                        {
+                            obj.ActiveStatus = pf.ActiveStatus;
+                        }
+                        else
+                        {
+                            obj.ActiveStatus = false;
+                            
+                        }
+                    }
+
+                    return ds;
                 }
             }
             catch (Exception ex)
@@ -413,12 +453,38 @@ namespace eSya.ConfigStores.DL.Repository
                 {
                     try
                     {
-                        List<GtEastbl> st_links = db.GtEastbls.Where(c => c.StoreCode == obj.StoreCode && c.BusinessKey == obj.BusinessKey).ToList();
-                        if (st_links.Count > 0)
+                        GtEastbl storelink = db.GtEastbls.Where(c => c.StoreCode == obj.StoreCode && c.BusinessKey == obj.BusinessKey && c.StoreClass==obj.StoreClass).FirstOrDefault(); 
+
+                        if(storelink!=null)
                         {
-                            foreach (var store in st_links)
+                            storelink.ActiveStatus = obj.ActiveStatus;
+                            storelink.ModifiedBy = obj.UserID;
+                            storelink.ModifiedOn = DateTime.Now;
+                            storelink.ModifiedTerminal = obj.TerminalID;
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            var stlink = new GtEastbl()
                             {
-                                db.GtEastbls.Remove(store);
+                                BusinessKey=obj.BusinessKey,
+                                StoreCode=obj.StoreCode,
+                                StoreClass=obj.StoreClass,
+                                ActiveStatus=obj.ActiveStatus,
+                                FormId=obj.FormId,
+                                CreatedBy=obj.UserID,
+                                CreatedOn=DateTime.Now,
+                                CreatedTerminal=obj.TerminalID
+                            };
+                            db.GtEastbls.Add(stlink);
+                            db.SaveChanges();
+                        }
+                        List<GtEcstpf> portfolio_links = db.GtEcstpfs.Where(c => c.StoreCode == obj.StoreCode && c.BusinessKey == obj.BusinessKey).ToList();
+                        if (portfolio_links.Count > 0)
+                        {
+                            foreach (var store in portfolio_links)
+                            {
+                                db.GtEcstpfs.Remove(store);
                                 db.SaveChanges();
                             }
 
@@ -427,18 +493,18 @@ namespace eSya.ConfigStores.DL.Repository
                         {
                             foreach (var st_code in obj.lst_businessLink)
                             {
-                                GtEastbl objstrore = new GtEastbl
+                                GtEcstpf objportf = new GtEcstpf
                                 {
                                     StoreCode = st_code.StoreCode,
                                     BusinessKey = st_code.BusinessKey,
-                                    StoreClass = st_code.StoreClass,
+                                    PortfolioId = st_code.PortfolioId,
                                     ActiveStatus = st_code.ActiveStatus,
                                     FormId = obj.FormId,
                                     CreatedBy = obj.UserID,
                                     CreatedOn = DateTime.Now,
                                     CreatedTerminal = obj.TerminalID
                                 };
-                                db.GtEastbls.Add(objstrore);
+                                db.GtEcstpfs.Add(objportf);
                                 await db.SaveChangesAsync();
 
                             }
@@ -612,6 +678,159 @@ namespace eSya.ConfigStores.DL.Repository
             }
         }
 
+        #endregion
+
+        #region Portfolio Master
+        public async Task<List<DO_PortfolioMaster>> GetAllPortfolios()
+        {
+            try
+            {
+                using (var db = new eSyaEnterprise())
+                {
+                    var ds = db.GtEcspfms
+                        .Select(p => new DO_PortfolioMaster
+                        {
+                            PortfolioId = p.PortfolioId,
+                            PortfolioDesc = p.PortfolioDesc,
+                            ActiveStatus = p.ActiveStatus,
+                        }).OrderBy(o => o.PortfolioDesc).ToListAsync();
+
+                    return await ds;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<DO_ReturnParameter> InsertIntoPortfolio(DO_PortfolioMaster obj)
+        {
+            using (var db = new eSyaEnterprise())
+            {
+                using (var dbContext = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+
+
+                        bool _ispfo = db.GtEcspfms.Any(a => a.PortfolioDesc.ToUpper().Replace(" ", "") == obj.PortfolioDesc.ToUpper().Replace(" ", ""));
+                        if (_ispfo)
+                        {
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0089", Message = string.Format(_localizer[name: "W0089"]) };
+                        }
+                        int maxprtfoId = db.GtEcspfms.Select(c => c.PortfolioId).DefaultIfEmpty().Max();
+                        maxprtfoId = maxprtfoId + 1;
+                        var _pfolio = new GtEcspfm
+                        {
+                            PortfolioId = maxprtfoId,
+                            PortfolioDesc = obj.PortfolioDesc,
+                            ActiveStatus = obj.ActiveStatus,
+                            FormId=obj.FormId,
+                            CreatedBy = obj.UserID,
+                            CreatedOn = System.DateTime.Now,
+                            CreatedTerminal = obj.TerminalID
+                        };
+                        db.GtEcspfms.Add(_pfolio);
+
+                        await db.SaveChangesAsync();
+                        dbContext.Commit();
+                        return new DO_ReturnParameter() { Status = true, StatusCode = "S0001", Message = string.Format(_localizer[name: "S0001"]) };
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        dbContext.Rollback();
+                        throw new Exception(CommonMethod.GetValidationMessageFromException(ex));
+
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContext.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+        }
+        public async Task<DO_ReturnParameter> UpdatePortfolio(DO_PortfolioMaster obj)
+        {
+            using (var db = new eSyaEnterprise())
+            {
+                using (var dbContext = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        bool is_portf = db.GtEcspfms.Any(a => a.PortfolioId != obj.PortfolioId && a.PortfolioDesc.ToUpper().Replace(" ", "") == obj.PortfolioDesc.ToUpper().Replace(" ", ""));
+                        if (is_portf)
+                        {
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0089", Message = string.Format(_localizer[name: "W0089"]) };
+                        }
+
+
+                        GtEcspfm _prfolio = db.GtEcspfms.Where(w => w.PortfolioId == obj.PortfolioId).FirstOrDefault();
+                        if (_prfolio == null)
+                        {
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0090", Message = string.Format(_localizer[name: "W0090"]) };
+                        }
+
+                        _prfolio.PortfolioDesc = obj.PortfolioDesc;
+                        _prfolio.ActiveStatus = obj.ActiveStatus;
+                        _prfolio.ModifiedBy = obj.UserID;
+                        _prfolio.ModifiedOn = System.DateTime.Now;
+                        _prfolio.ModifiedTerminal = obj.TerminalID;
+                        await db.SaveChangesAsync();
+                        dbContext.Commit();
+
+                        return new DO_ReturnParameter() { Status = true, StatusCode = "S0002", Message = string.Format(_localizer[name: "S0002"]) };
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        dbContext.Rollback();
+                        throw new Exception(CommonMethod.GetValidationMessageFromException(ex));
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContext.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+        }
+        public async Task<DO_ReturnParameter> ActiveOrDeActivePortfolio(bool status, int PortfolioId)
+        {
+            using (var db = new eSyaEnterprise())
+            {
+                using (var dbContext = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        GtEcspfm portfo = db.GtEcspfms.Where(w => w.PortfolioId == PortfolioId).FirstOrDefault();
+                        if (portfo == null)
+                        {
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0090", Message = string.Format(_localizer[name: "W0090"]) };
+                        }
+
+                        portfo.ActiveStatus = status;
+                        await db.SaveChangesAsync();
+                        dbContext.Commit();
+
+                        if (status == true)
+                            return new DO_ReturnParameter() { Status = true, StatusCode = "S0003", Message = string.Format(_localizer[name: "S0003"]) };
+                        else
+                            return new DO_ReturnParameter() { Status = true, StatusCode = "S0004", Message = string.Format(_localizer[name: "S0004"]) };
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        dbContext.Rollback();
+                        throw new Exception(CommonMethod.GetValidationMessageFromException(ex));
+
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContext.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+        }
         #endregion
     }
 }
