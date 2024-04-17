@@ -33,6 +33,7 @@ namespace eSya.ConfigStores.DL.Repository
                                   .Select(s => new DO_StoreMaster
                                   {
                                       StoreCode = s.StoreCode,
+                                      StoreType=s.StoreType,
                                       StoreDesc = s.StoreDesc,
                                       ActiveStatus = s.ActiveStatus
                                   }).ToListAsync();
@@ -107,6 +108,7 @@ namespace eSya.ConfigStores.DL.Repository
                             var objstorecode = new GtEcstrm
                             {
                                 StoreCode = storecode_,
+                                StoreType=0,
                                 StoreDesc = storecodes.StoreDesc,
                                 FormId = storecodes.FormId,
                                 ActiveStatus = storecodes.ActiveStatus,

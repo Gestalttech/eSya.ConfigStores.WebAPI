@@ -9,6 +9,7 @@ namespace eSya.ConfigStores.DO
     public class DO_StoreMaster
     {
         public int StoreCode { get; set; }
+        public int StoreType { get; set; }
         public string StoreDesc { get; set; }
         public bool ActiveStatus { get; set; }
         public string FormId { get; set; }
