@@ -13,13 +13,13 @@ namespace eSya.ConfigStores.IF
 
         Task<List<DO_StoreMaster>> GetStoreCodes();
 
-        Task<DO_StoreMaster> GetStoreParameterList(int StoreCode);
+        Task<DO_StoreMaster> GetStoreParameterList(int StoreCode, int StoreType);
 
         Task<DO_ReturnParameter> InsertOrUpdateStoreCodes(DO_StoreMaster storecodes);
 
         Task<DO_ReturnParameter> DeleteStoreCode(int Storecode);
 
-        Task<DO_ReturnParameter> ActiveOrDeActiveStoreCode(bool status,  int storecode);
+        Task<DO_ReturnParameter> ActiveOrDeActiveStoreCode(bool status,  int storecode, int StoreType);
 
         Task<List<DO_StoreMaster>> GetActiveStoreCodes();
 

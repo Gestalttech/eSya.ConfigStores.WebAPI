@@ -5,11 +5,6 @@ namespace eSya.ConfigStores.DL.Entities
 {
     public partial class GtEcstrm
     {
-        public GtEcstrm()
-        {
-            GtEcpasts = new HashSet<GtEcpast>();
-        }
-
         public int StoreCode { get; set; }
         public int StoreType { get; set; }
         public string StoreDesc { get; set; } = null!;
@@ -21,7 +16,5 @@ namespace eSya.ConfigStores.DL.Entities
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public string? ModifiedTerminal { get; set; }
-
-        public virtual ICollection<GtEcpast> GtEcpasts { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace eSya.ConfigStores.DL.Repository
             {
                 using (eSyaEnterprise db = new eSyaEnterprise())
                 {
-                    var result = db.GtEcstrms
+                    var result = db.GtEcstrms.Where(x=>x.StoreType==0)
 
                                   .Select(s => new DO_StoreMaster
                                   {
@@ -46,17 +46,17 @@ namespace eSya.ConfigStores.DL.Repository
             }
         }
 
-        public async Task<DO_StoreMaster> GetStoreParameterList(int StoreCode)
+        public async Task<DO_StoreMaster> GetStoreParameterList(int StoreCode, int StoreType)
         {
             using (var db = new eSyaEnterprise())
             {
                 try
                 {
                     var ds = db.GtEcstrms
-                        .Where(w => w.StoreCode == StoreCode)
+                        .Where(w => w.StoreCode == StoreCode && w.StoreType== StoreType)
                         .Select(r => new DO_StoreMaster
                         {
-                            l_FormParameter = r.GtEcpasts.Select(p => new DO_eSyaParameter
+                            l_FormParameter =db.GtEcpasts.Where(x=>x.StoreCode==StoreCode).Select(p => new DO_eSyaParameter
                             {
                                 ParameterID = p.ParameterId,
                                 ParmAction = p.ParamAction
@@ -171,7 +171,7 @@ namespace eSya.ConfigStores.DL.Repository
                             return new DO_ReturnParameter() { Status = false, StatusCode = "W0084", Message = string.Format(_localizer[name: "W0084"]) };
                         }
 
-                        GtEcstrm st_code = db.GtEcstrms.Where(s => s.StoreCode == storecodes.StoreCode).FirstOrDefault();
+                        GtEcstrm st_code = db.GtEcstrms.Where(s => s.StoreCode == storecodes.StoreCode && s.StoreType== storecodes.StoreType).FirstOrDefault();
                         if (st_code == null)
                         {
                             return new DO_ReturnParameter() { Status = false, StatusCode = "W0085", Message = string.Format(_localizer[name: "W0085"]) };
@@ -309,7 +309,7 @@ namespace eSya.ConfigStores.DL.Repository
             }
         }
 
-        public async Task<DO_ReturnParameter> ActiveOrDeActiveStoreCode(bool status,  int storecode)
+        public async Task<DO_ReturnParameter> ActiveOrDeActiveStoreCode(bool status,  int storecode, int StoreType)
         {
             using (var db = new eSyaEnterprise())
             {
@@ -317,7 +317,7 @@ namespace eSya.ConfigStores.DL.Repository
                 {
                     try
                     {
-                        GtEcstrm strore_code = db.GtEcstrms.Where(w => w.StoreCode == storecode).FirstOrDefault();
+                        GtEcstrm strore_code = db.GtEcstrms.Where(w => w.StoreCode == storecode && w.StoreType== StoreType).FirstOrDefault();
                         if (strore_code == null)
                         {
                             return new DO_ReturnParameter() { Status = false, StatusCode = "W0085", Message = string.Format(_localizer[name: "W0085"]) };
@@ -359,8 +359,11 @@ namespace eSya.ConfigStores.DL.Repository
                     var sm = await db.GtEcstrms.Where(w => w.ActiveStatus == true)
                                      .Select(m => new DO_StoreMaster()
                                      {
-                                         StoreCode = m.StoreCode,
-                                         StoreDesc = m.StoreDesc
+                                         StoreCode = Convert.ToInt32(m.StoreCode.ToString() + m.StoreType.ToString()),
+                                         StoreType = m.StoreType,
+                                         StoreDesc = m.StoreDesc,
+                                         StoreTypeDesc = m.StoreType == 0 ? "Store" : "Department",
+                                         ActiveStatus = false
                                      }).ToListAsync();
 
 
@@ -568,13 +571,61 @@ namespace eSya.ConfigStores.DL.Repository
             }
         }
 
+        //public async Task<List<DO_StoreMaster>> GetStoreFormLinked(int formId)
+        //{
+        //    try
+        //    {
+        //        using (eSyaEnterprise db = new eSyaEnterprise())
+        //        {
+        //            var st =await db.GtEcstrms.Join(
+        //                db.GtEcpasts.Where(w => w.ParamAction && w.ActiveStatus),
+        //                s => s.StoreCode,
+        //                p => p.StoreCode,
+        //                (s, p) => new { s, p })
+        //                .Join(db.GtEcfmpas.Where(w => w.FormId == formId),
+        //                sp => new { sp.p.ParameterId },
+        //                f => new { ParameterId = f.ParameterId },
+        //                (sp, f) => new { sp, f })
+        //                .Select(r => new 
+        //                {
+        //                    r.sp.s.StoreCode,
+        //                    r.sp.s.StoreType,
+        //                    r.sp.s.StoreDesc,
+        //                }).ToListAsync();
+        //            var distinctStores = st.GroupBy(x => new { x.StoreCode, x.StoreType }).Select(y => y.First());
+
+        //            var result = distinctStores
+        //           .GroupJoin(db.GtEcfmsts.Where(w => w.FormId == formId),
+        //            s => s.StoreCode,
+        //            f => f.StoreCode,
+        //            (s, f) => new { s, f })
+        //           .SelectMany(z => z.f.DefaultIfEmpty(),
+        //            (a, b) => new DO_StoreMaster
+        //            {
+        //                StoreCode = a.s.StoreCode + a.s.StoreType,
+        //                StoreType = a.s.StoreType,
+        //                StoreDesc = a.s.StoreDesc,
+        //                StoreTypeDesc =a. s.StoreType == 0 ? "Store" : "Department",
+        //                ActiveStatus = b == null ? false : b.ActiveStatus
+
+        //            }).ToList();
+
+        //            return result.ToList();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
         public async Task<List<DO_StoreMaster>> GetStoreFormLinked(int formId)
         {
             try
             {
                 using (eSyaEnterprise db = new eSyaEnterprise())
                 {
-                    var st = db.GtEcstrms.Join(
+                    var st = await db.GtEcstrms.Join(
                         db.GtEcpasts.Where(w => w.ParamAction && w.ActiveStatus),
                         s => s.StoreCode,
                         p => p.StoreCode,
@@ -583,40 +634,47 @@ namespace eSya.ConfigStores.DL.Repository
                         sp => new { sp.p.ParameterId },
                         f => new { ParameterId = f.ParameterId },
                         (sp, f) => new { sp, f })
-                        .Select(r => new
+                        .Select(r => new DO_StoreMaster
                         {
-                            r.sp.s.StoreCode,
-                            r.sp.s.StoreDesc,
-                        });
+                            StoreCode= Convert.ToInt32(r.sp.s.StoreCode.ToString() + r.sp.s.StoreType.ToString()),
+                            StoreType=r.sp.s.StoreType,
+                            StoreDesc=r.sp.s.StoreDesc,
+                            StoreTypeDesc =  r.sp.s.StoreType == 0 ? "Store" : "Department",
+                            ActiveStatus =false
+                        }).ToListAsync();
+                    var distinctStores = st.GroupBy(x => new { x.StoreCode, x.StoreType }).Select(y => y.First());
 
-                    //var result = await st
-                    //    .GroupJoin(db.GtEcfmsts.Where(w => w.FormId == formId),
-                    //        s => s.StoreCode,
-                    //        f => f.StoreCode,
-                    //  //(s, f) => new { s, f = f.FirstOrDefault() }).DefaultIfEmpty()
-                    //  (s, f) => new { s, f = f.FirstOrDefault() })
-                    //  .Select(s => new DO_StoreMaster
-                    //  {
-                    //      StoreType = s.s.StoreType,
-                    //      StoreCode = s.s.StoreCode,
-                    //      StoreDesc = s.s.StoreDesc,
-                    //      ActiveStatus = s.f != null ? s.f.ActiveStatus : false
-                    //  }).ToListAsync();
-
-                    var result = await st
-                   .GroupJoin(db.GtEcfmsts.Where(w => w.FormId == formId),
-                    s => s.StoreCode,
-                    f => f.StoreCode,
-                    (s, f) => new { s, f })
-                   .SelectMany(z => z.f.DefaultIfEmpty(),
-                    (a, b) => new DO_StoreMaster
+                    foreach (var obj in distinctStores)
                     {
-                        StoreCode = a.s.StoreCode,
-                        StoreDesc = a.s.StoreDesc,
-                        ActiveStatus = b == null ? false : b.ActiveStatus
-                    }).ToListAsync();
-                    var Distinctstores = result.GroupBy(x => x.StoreCode).Select(y => y.First());
-                    return Distinctstores.ToList();
+                        GtEcfmst islink = db.GtEcfmsts.Where(c => c.FormId == formId && c.StoreCode == obj.StoreCode).FirstOrDefault();
+                        if (islink != null)
+                        {
+                            obj.ActiveStatus = islink.ActiveStatus;
+                        }
+                        else
+                        {
+                            obj.ActiveStatus = false;
+                        }
+                    }
+                    return distinctStores.ToList();
+
+                    // var result = distinctStores
+                    //.GroupJoin(db.GtEcfmsts.Where(w => w.FormId == formId),
+                    // s => s.StoreCode,
+                    // f => f.StoreCode,
+                    // (s, f) => new { s, f })
+                    //.SelectMany(z => z.f.DefaultIfEmpty(),
+                    // (a, b) => new DO_StoreMaster
+                    // {
+                    //     StoreCode = a.s.StoreCode + a.s.StoreType,
+                    //     StoreType = a.s.StoreType,
+                    //     StoreDesc = a.s.StoreDesc,
+                    //     StoreTypeDesc = a.s.StoreType == 0 ? "Store" : "Department",
+                    //     ActiveStatus = b == null ? false : b.ActiveStatus
+
+                    // }).ToList();
+
+                    //return result.ToList();
                 }
             }
             catch (Exception ex)
@@ -624,7 +682,6 @@ namespace eSya.ConfigStores.DL.Repository
                 throw ex;
             }
         }
-
         public async Task<DO_ReturnParameter> InsertIntoFormStoreLink(List<DO_StoreFormLink> l_obj)
         {
             using (eSyaEnterprise db = new eSyaEnterprise())

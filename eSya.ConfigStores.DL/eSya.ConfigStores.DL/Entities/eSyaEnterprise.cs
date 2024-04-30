@@ -210,12 +210,6 @@ namespace eSya.ConfigStores.DL.Entities
                 entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
                 entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
-
-                entity.HasOne(d => d.StoreCodeNavigation)
-                    .WithMany(p => p.GtEcpasts)
-                    .HasForeignKey(d => d.StoreCode)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GT_ECPAST_GT_ECSTRM");
             });
 
             modelBuilder.Entity<GtEcspfm>(entity =>
@@ -268,12 +262,10 @@ namespace eSya.ConfigStores.DL.Entities
 
             modelBuilder.Entity<GtEcstrm>(entity =>
             {
-                entity.HasKey(e => e.StoreCode)
+                entity.HasKey(e => new { e.StoreCode, e.StoreType })
                     .HasName("PK_GT_ECSTRM_1");
 
                 entity.ToTable("GT_ECSTRM");
-
-                entity.Property(e => e.StoreCode).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 

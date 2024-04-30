@@ -33,9 +33,9 @@ namespace eSya.ConfigStores.WebAPI.Controllers
         /// UI Reffered - Store Master
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetStoreParameterList(int StoreCode)
+        public async Task<IActionResult> GetStoreParameterList(int StoreCode, int StoreType)
         {
-            var sp_Param = await _StoreMasterRepository.GetStoreParameterList(StoreCode);
+            var sp_Param = await _StoreMasterRepository.GetStoreParameterList(StoreCode, StoreType);
             return Ok(sp_Param);
         }
         /// <summary>
@@ -73,9 +73,9 @@ namespace eSya.ConfigStores.WebAPI.Controllers
         /// <param name="status-storetype-storecode"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> ActiveOrDeActiveStoreCode(bool status,  int storecode)
+        public async Task<IActionResult> ActiveOrDeActiveStoreCode(bool status,  int storecode, int StoreType)
         {
-            var msg = await _StoreMasterRepository.ActiveOrDeActiveStoreCode(status,  storecode);
+            var msg = await _StoreMasterRepository.ActiveOrDeActiveStoreCode(status,  storecode, StoreType);
             return Ok(msg);
         }
         #endregion  Store Master
