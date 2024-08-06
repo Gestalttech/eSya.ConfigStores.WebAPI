@@ -27,6 +27,9 @@ namespace eSya.ConfigStores.DL.Entities
         public virtual DbSet<GtEcspfm> GtEcspfms { get; set; } = null!;
         public virtual DbSet<GtEcstpf> GtEcstpfs { get; set; } = null!;
         public virtual DbSet<GtEcstrm> GtEcstrms { get; set; } = null!;
+        public virtual DbSet<GtSaccat> GtSaccats { get; set; } = null!;
+        public virtual DbSet<GtSaccla> GtSacclas { get; set; } = null!;
+        public virtual DbSet<GtSaccod> GtSaccods { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -281,6 +284,115 @@ namespace eSya.ConfigStores.DL.Entities
                 entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
 
                 entity.Property(e => e.StoreDesc).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<GtSaccat>(entity =>
+            {
+                entity.HasKey(e => new { e.Isdcode, e.Sacclass, e.Saccategory });
+
+                entity.ToTable("GT_SACCAT");
+
+                entity.Property(e => e.Isdcode).HasColumnName("ISDCode");
+
+                entity.Property(e => e.Sacclass)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("SACClass");
+
+                entity.Property(e => e.Saccategory)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("SACCategory");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.FormId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.SaccategoryDesc)
+                    .HasMaxLength(250)
+                    .HasColumnName("SACCategoryDesc");
+            });
+
+            modelBuilder.Entity<GtSaccla>(entity =>
+            {
+                entity.HasKey(e => new { e.Isdcode, e.Sacclass });
+
+                entity.ToTable("GT_SACCLA");
+
+                entity.Property(e => e.Isdcode).HasColumnName("ISDCode");
+
+                entity.Property(e => e.Sacclass)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("SACClass");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.FormId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.SacclassDesc)
+                    .HasMaxLength(250)
+                    .HasColumnName("SACClassDesc");
+            });
+
+            modelBuilder.Entity<GtSaccod>(entity =>
+            {
+                entity.HasKey(e => new { e.Isdcode, e.Sacclass, e.Saccategory, e.Saccode })
+                    .HasName("PK_GT_SACCOD_1");
+
+                entity.ToTable("GT_SACCOD");
+
+                entity.Property(e => e.Isdcode).HasColumnName("ISDCode");
+
+                entity.Property(e => e.Sacclass)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("SACClass");
+
+                entity.Property(e => e.Saccategory)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("SACCategory");
+
+                entity.Property(e => e.Saccode)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("SACCode");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.FormId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.Sacdescription)
+                    .HasMaxLength(250)
+                    .HasColumnName("SACDescription");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -1113,3 +1113,4 @@ D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\e
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\obj\Debug\net6.0\eSya.ConfigStores.WebAPI.pdb
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\obj\Debug\net6.0\eSya.ConfigStores.WebAPI.genruntimeconfig.cache
 D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\obj\Debug\net6.0\ref\eSya.ConfigStores.WebAPI.dll
+D:\Projects\eSyaProjects2022\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\eSya.ConfigStores.WebAPI\obj\Debug\net6.0\eSya.ConfigStores.WebAPI.MvcApplicationPartsAssemblyInfo.cs
