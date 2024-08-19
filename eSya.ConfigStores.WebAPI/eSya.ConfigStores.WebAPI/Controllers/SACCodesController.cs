@@ -30,9 +30,9 @@ namespace eSya.ConfigStores.WebAPI.Controllers
         /// UI Reffered - SAC Codes
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetSACCodeByCode(int ISDCode, string SACClassID, string SACCategoryID, string SACCodeID)
+        public async Task<IActionResult> GetSACCodeByCode(int ISDCode, string SACCodeID)
         {
-            var ds = await _SACCodesRepository.GetSACCodeByCode(ISDCode, SACClassID, SACCategoryID, SACCodeID);
+            var ds = await _SACCodesRepository.GetSACCodeByCode(ISDCode,  SACCodeID);
             return Ok(ds);
         }
         /// <summary>
@@ -62,9 +62,9 @@ namespace eSya.ConfigStores.WebAPI.Controllers
         /// UI Reffered - SAC Codes
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> DeleteSACCode(int ISDCode, string SACClassID, string SACCategoryID, string SACCodeID)
+        public async Task<IActionResult> DeleteSACCode(int ISDCode, string SACCodeID)
         {
-            var ds = await _SACCodesRepository.DeleteSACCode(ISDCode, SACClassID, SACCategoryID, SACCodeID);
+            var ds = await _SACCodesRepository.DeleteSACCode(ISDCode,  SACCodeID);
             return Ok(ds);
         }
         #endregion

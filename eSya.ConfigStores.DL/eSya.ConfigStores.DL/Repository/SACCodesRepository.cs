@@ -45,16 +45,15 @@ namespace eSya.ConfigStores.DL.Repository
                 throw ex;
             }
         }
-        public async Task<DO_SACCodes> GetSACCodeByCode(int ISDCode, string SACClassID, string SACCategoryID, string SACCodeID)
+        public async Task<DO_SACCodes> GetSACCodeByCode(int ISDCode,string SACCodeID)
         {
             try
             {
                 using (eSyaEnterprise db = new eSyaEnterprise())
                 {
                     var ds = db.GtSaccods
-                        .Where(w => w.Isdcode == ISDCode && w.Sacclass.ToUpper().Replace(" ", "") == SACClassID.ToUpper().Replace(" ", "") 
-                        && w.Saccategory.ToUpper().Replace(" ", "") == SACCategoryID.ToUpper().Replace(" ", "")
-                        && w.Saccode.ToUpper().Replace(" ", "") == SACCodeID.ToUpper().Replace(" ", ""))
+                        .Where(w => w.Isdcode == ISDCode &&
+                        w.Saccode.ToUpper().Replace(" ", "") == SACCodeID.ToUpper().Replace(" ", ""))
                                  .Select(x => new DO_SACCodes
                                  {
                                      Isdcode = x.Isdcode,
@@ -105,7 +104,7 @@ namespace eSya.ConfigStores.DL.Repository
                                 Isdcode = obj.Isdcode,
                                 Sacclass = obj.Sacclass,
                                 Saccategory = obj.Saccategory,
-                                Saccode = obj.Isdcode.ToString() + obj.Sacclass.ToString() + obj.Saccode.ToString(),
+                                Saccode = obj.Sacclass.ToString()+obj.Saccategory.ToString() + obj.Saccode.ToString(),
                                 Sacdescription = obj.Sacdescription,
                                 ActiveStatus = obj.ActiveStatus,
                                 FormId = obj.FormID,
@@ -179,7 +178,7 @@ namespace eSya.ConfigStores.DL.Repository
                 }
             }
         }
-        public async Task<DO_ReturnParameter> DeleteSACCode(int ISDCode, string SACClassID, string SACCategoryID,string SACCodeID)
+        public async Task<DO_ReturnParameter> DeleteSACCode(int ISDCode, string SACCodeID)
         {
             using (eSyaEnterprise db = new eSyaEnterprise())
             {
@@ -188,9 +187,8 @@ namespace eSya.ConfigStores.DL.Repository
                     try
                     {
                        
-                        GtSaccod Saccacode = db.GtSaccods.Where(w => w.Isdcode == ISDCode && w.Sacclass.ToUpper().Replace(" ", "") == SACClassID.ToUpper().Replace(" ", "")
-                        && w.Saccategory.ToUpper().Replace(" ", "") == SACCategoryID.ToUpper().Replace(" ", "")
-                        && w.Saccode.ToUpper().Replace(" ", "") == SACCodeID.ToUpper().Replace(" ", "")).FirstOrDefault();
+                        GtSaccod Saccacode = db.GtSaccods.Where(w => w.Isdcode == ISDCode &&
+                        w.Saccode.ToUpper().Replace(" ", "") == SACCodeID.ToUpper().Replace(" ", "")).FirstOrDefault();
                         if (Saccacode != null)
                         {
                             db.GtSaccods.Remove(Saccacode);

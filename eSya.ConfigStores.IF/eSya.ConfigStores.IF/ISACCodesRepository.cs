@@ -11,10 +11,10 @@ namespace eSya.ConfigStores.IF
     {
         #region SAC Codes
         Task<List<DO_SACCodes>> GetSACCodes(int ISDCode);
-        Task<DO_SACCodes> GetSACCodeByCode(int ISDCode, string SACClassID, string SACCategoryID, string SACCodeID);
+        Task<DO_SACCodes> GetSACCodeByCode(int ISDCode, string SACCodeID);
         Task<DO_ReturnParameter> InsertIntoSACCode(DO_SACCodes obj);
         Task<DO_ReturnParameter> UpdateSACSACCode(DO_SACCodes obj);
-        Task<DO_ReturnParameter> DeleteSACCode(int ISDCode, string SACClassID, string SACCategoryID, string SACCodeID);
+        Task<DO_ReturnParameter> DeleteSACCode(int ISDCode, string SACCodeID);
         #endregion
     }
 }
